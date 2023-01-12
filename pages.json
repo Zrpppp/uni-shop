@@ -50,8 +50,11 @@
                     "path" : "goods_list/goods_list",
                     "style" :                                                                                    
                 {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
+					"navigationBarTitleText": "商品列表",
+					"onReachBottomDistance": 150,
+					"enablePullDownRefresh": true,
+					"backgroundColor": "#F8F8F8"
+					
                 }
                 
                 }
@@ -71,7 +74,7 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#C00000",
-		"backgroundColor": "#F8F8F8",
+		"backgroundColor": "#FFFFFF",
 		"app-plus": {
 			"background": "#efeff4"
 		}
