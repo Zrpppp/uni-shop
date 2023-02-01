@@ -60,7 +60,7 @@
 				
 				//把token保存到vuex中,接口暂时无法调用，先把token写死
 				// this.updataToken(loginResult.message.token)
-				this.updataToken('123')
+				this.updataToken('"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIzLCJpYXQiOjE1NjQ3MzAwNzksImV4cCI6MTAwMTU2NDczMDA3OH0.YPt-XeLnjV-_1ITaXGY2FhxmCe4NvXuRnRB8OMCfnPo"')
 				
 				uni.$showMsg('登录成功！')
 				this.navigateBack()
