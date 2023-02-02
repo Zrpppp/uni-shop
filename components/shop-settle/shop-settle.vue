@@ -33,6 +33,7 @@
 		},
 		computed:{
 			...mapGetters('m_cart',['checkedCount','total','checkedPrice']),
+			...mapState('m_cart',['cart']),
 			...mapGetters('m_user',['addstr']),
 			...mapState('m_user',['token']),
 			isFullCheck(){
@@ -56,6 +57,35 @@
 				//最后判断用户是否登录了
 				// if(!this.token) return uni.$showMsg('请先登录!')
 				if(!this.token) return this.delayNavigate()
+				
+				this.payOrder()
+			},
+			async payOrder(){
+				//创建订单
+				
+				//1.组织订单的信息对象
+				const orderInfo = {
+					// order_price:this.checkedPrice,
+					//开发中写死价格
+					order_price:'0.01',
+					consignee_addr:this.addstr,
+					//改造已勾选的商品信息对象
+					goods:this.cart.filter(x => x.goods_state).map(x => ({
+						goods_id:x.goods_id,
+						goods_number:x.goods_count,
+						goods_price:x.goods_price
+					}))
+				}
+				
+				//2.发起请求创建订单
+				const {data:res} = await uni.$http.post('/api/public/v1/my/order/create',orderInfo)
+				if(res.meta.status !== 200) return uni.$showMsg('创建订单失败！')
+				
+				//3.得到服务器响应的订单编号
+				const orderNumber = res.message.order_number
+				
+				console.log(orderNumber);
+				
 			},
 			//延时导航到登录页面
 			delayNavigate(){

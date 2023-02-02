@@ -56,6 +56,7 @@ export default {
 	},
 	
 	getters:{
+		//收货地址
 		addstr(state){
 			if(!state.address.provinceName) return ''
 			return state.address.provinceName + state.address.cityName + state.address.countyName + state.address.detailInfo
