@@ -84,7 +84,37 @@
 				//3.得到服务器响应的订单编号
 				const orderNumber = res.message.order_number
 				
-				console.log(orderNumber);
+				// console.log(orderNumber);
+				
+				//4.订单预支付
+				//发情请求获取订单支付的信息
+				const {data:res2} = uni.$http.post('/api/public/v1/my/orders/req_unifiedorder',{order_number:orderNumber})
+			
+				//预付订单生成失败
+				if(res2.meta.status !== 200) return uni.$showMsg('预付订单生成失败！')
+				
+				//得到订单支付相关的必要参数
+				const payInfo = res2.message.pay
+				
+				//5.发起微信支付
+				//调用uni.reqiestPayment()发起微信支付
+				const [err,succ] = await uni.requestPayment(payInfo)
+				
+				//未完成支付
+				if(err) return uni.$showMsg('支付失败！')
+				
+				//完成支付进一步查询结果
+				const {date:res3} = await uni.$http.post('/api/public/v1/my/orders/chkOrder',{order_number:orderNumber})
+				
+				//检测到订单未支付
+				if(res3.meta.status !== 200) return uni.$showMsg('订单未支付！')
+				
+				//检测到订单支付完成
+				uni.showToast({
+					title:'订单支付完成！',
+					icon:'success'
+				})
+				
 				
 			},
 			//延时导航到登录页面
